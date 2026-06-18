@@ -1,1 +1,1 @@
-# Cognizant-University1
+# Cognizant-University
