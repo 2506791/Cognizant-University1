@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cognizant University - Faculty Login</title>
+    <!-- Inter Font Family CDN -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #0d1b2a;         /* Corporate Dark Navy */
+            --accent: #800020;          /* Heritage Maroon / Crimson */
+            --gold: #daa520;            /* Gold Highlight */
+            --text-dark: #ffffff;
+            --text-muted: #cbd5e1;
+            --error: #f87171;
+            --error-bg: rgba(185, 28, 28, 0.25);
+            --radius: 6px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            /* High-quality university library background layered with corporate navy tint */
+            background: linear-gradient(rgba(13, 27, 42, 0.8), rgba(5, 11, 17, 0.9)), 
+                        url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=1920&auto=format&fit=crop') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 1.5rem; 
+        }
+        
+        .hidden { display: none !important; }
+
+        /* Premium Glassy Container Card with Accent Top Anchor */
+        .login-container {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(18px) saturate(110%);
+            -webkit-backdrop-filter: blur(18px) saturate(110%);
+            width: 100%;
+            max-width: 400px;
+            padding: 3rem 2.25rem;
+            border-radius: var(--radius);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-top: 4px solid var(--accent);
+            color: #ffffff;
+        }
+
+        .header { text-align: center; margin-bottom: 2rem; }
+        .logo { display: flex; align-items: center; justify-content: center; gap: 0.5rem; font-weight: 700; font-size: 1.2rem; color: #ffffff; margin-bottom: 0.75rem; letter-spacing: -0.01em; }
+        .logo i { color: var(--gold); }
+        .header h1 { font-size: 1.65rem; font-weight: 800; color: var(--text-dark); margin-bottom: 0.35rem; letter-spacing: -0.02em; }
+        .header p { font-size: 0.875rem; color: var(--text-muted); }
+
+        .form-group { margin-bottom: 1.35rem; }
+        label { font-size: 0.75rem; font-weight: 700; color: #ffffff; text-transform: uppercase; display: block; margin-bottom: 0.45rem; letter-spacing: 0.03em; }
+        
+        .form-input { 
+            width: 100%; 
+            padding: 0.8rem 1rem; 
+            font-size: 0.9rem; 
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            border-radius: var(--radius); 
+            outline: none; 
+            transition: all 0.2s; 
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+        }
+        .form-input::placeholder { color: rgba(255, 255, 255, 0.35); }
+        .form-input:focus { 
+            border-color: var(--gold); 
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 0 3px rgba(218, 165, 32, 0.15); 
+        }
+
+        .utility-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.75rem; font-size: 0.85rem; }
+        .remember-me { display: flex; align-items: center; gap: 0.4rem; cursor: pointer; color: var(--text-muted); font-weight: 500; }
+        .remember-me input { accent-color: var(--primary); cursor: pointer; }
+        .forgot-link { color: #ffffff; text-decoration: none; font-weight: 600; opacity: 0.9; transition: color 0.2s; }
+        .forgot-link:hover { color: var(--gold); text-decoration: underline; }
+
+        .btn-submit { 
+            width: 100%; 
+            background-color: var(--primary); 
+            color: #ffffff; 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.85rem; 
+            font-size: 0.9rem; 
+            font-weight: 600; 
+            border-radius: var(--radius); 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 0.5rem; 
+            transition: all 0.2s; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        .btn-submit:hover { 
+            background-color: var(--accent);
+            transform: translateY(-1px);
+        }
+        .btn-submit:active { transform: translateY(0); }
+
+        .global-error-card { background-color: var(--error-bg); border: 1px solid rgba(248, 113, 113, 0.4); color: var(--error); padding: 0.75rem 1rem; border-radius: var(--radius); font-size: 0.85rem; display: flex; gap: 0.5rem; margin-bottom: 1.25rem; align-items: center; }
+        .form-group.error .form-input { border-color: var(--error); background-color: rgba(185, 28, 28, 0.15); }
+        .field-error { color: var(--error); font-size: 0.75rem; margin-top: 0.4rem; display: flex; align-items: center; gap: 0.25rem; font-weight: 500; }
+
+        .dashboard-layout { text-align: center; padding: 1rem 0; }
+        .dash-badge { width: 52px; height: 52px; background-color: rgba(34, 197, 94, 0.2); border: 1px solid rgba(34, 197, 94, 0.4); color: #4ade80; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; }
+        .btn-logout { background-color: transparent; border: 1px solid rgba(255, 255, 255, 0.4); color: #ffffff; padding: 0.65rem 1.75rem; font-size: 0.85rem; font-weight: 600; border-radius: var(--radius); cursor: pointer; margin-top: 1.75rem; transition: all 0.2s; }
+        .btn-logout:hover { background-color: rgba(255, 255, 255, 0.1); border-color: #ffffff; }
+        
+        .footer { text-align: center; margin-top: 2rem; font-size: 0.75rem; color: var(--text-muted); opacity: 0.6; font-weight: 500; }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <!-- Login Form Screen -->
+        <div id="login-view">
+            <div class="header">
+                <div class="logo">
+                    <i data-lucide="shield"></i>
+                    <span>Cognizant University</span>
+                </div>
+                <h1>Faculty Login</h1>
+                <p>Access your academic portal</p>
+            </div>
+
+            <!-- Error Notification Alert Box -->
+            <div id="global-error" class="global-error-card hidden">
+                <i data-lucide="alert-triangle" style="width: 16px; height: 16px;"></i>
+                <span id="global-error-text">Error placeholder.</span>
+            </div>
+
+            <form id="faculty-secure-form" novalidate onsubmit="executeFacultyAuthHandshake(event)">
+                <div class="form-group" id="user-group">
+                    <label for="username">Username / Email ID</label>
+                    <input type="text" id="username" class="form-input" placeholder="e.g. faculty123" oninput="resetComponentState('user-group')">
+                    <div id="user-error" class="field-error hidden"></div>
+                </div>
+
+                <div class="form-group" id="pass-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-input" placeholder="••••••••" oninput="resetComponentState('pass-group')">
+                    <div id="pass-error" class="field-error hidden"></div>
+                </div>
+
+                <div class="utility-row">
+                    <label class="remember-me"><input type="checkbox" id="remember-session"> Remember me</label>
+                    <a href="#" class="forgot-link" onclick="event.preventDefault(); alert('Please contact the administrator to reset your password.');">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="btn-submit">Sign In <i data-lucide="arrow-right-circle" style="width: 16px; height: 16px;"></i></button>
+            </form>
+        </div>
+
+        <!-- Post-Login Success Dashboard Screen -->
+        <div id="dashboard-view" class="dashboard-layout hidden">
+            <div class="dash-badge"><i data-lucide="check" style="width: 24px; height: 24px;"></i></div>
+            <h2>Welcome Back</h2>
+            <p id="dash-text" style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem;"></p>
+            <button type="button" class="btn-logout" onclick="terminateSessionContext()">Log Out</button>
+        </div>
+        
+        <div class="footer">Institutional Core Network &copy; 2026</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => { lucide.createIcons(); });
+        
+        const systemRegistryLogs = { userId: "faculty123", password: "password123" };
+
+        function resetComponentState(groupId) {
+            const group = document.getElementById(groupId);
+            group.classList.remove('error');
+            group.querySelector('.field-error').classList.add('hidden');
+        }
+
+        function triggerFieldAnomalyMark(groupId, errorId, msg) {
+            const group = document.getElementById(groupId);
+            const errorText = document.getElementById(errorId);
+            group.classList.add('error');
+            errorText.innerHTML = `<i data-lucide="info" style='width:12px; height:12px;'></i> ${msg}`;
+            errorText.classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function executeFacultyAuthHandshake(event) {
+            event.preventDefault();
+            const uid = document.getElementById('username').value.trim();
+            const pass = document.getElementById('password').value;
+            const globalCard = document.getElementById('global-error');
+
+            globalCard.classList.add('hidden');
+            let isValid = true;
+
+            if (!uid) { triggerFieldAnomalyMark('user-group', 'user-error', 'Username is required.'); isValid = false; }
+            if (!pass) { triggerFieldAnomalyMark('pass-group', 'pass-error', 'Password is required.'); isValid = false; }
+            if (!isValid) return;
+
+            if (uid === "student123") {
+                globalCard.querySelector('#global-error-text').innerHTML = `<strong>Access Denied:</strong> Student login prohibited here.`;
+                globalCard.classList.remove('hidden');
+                return;
+            }
+
+            if (uid === systemRegistryLogs.userId && pass === systemRegistryLogs.password) {
+                document.getElementById('login-view').classList.add('hidden');
+                document.getElementById('dash-text').innerText = `Secure session initialized for ${uid}.`;
+                document.getElementById('dashboard-view').classList.remove('hidden');
+            } else {
+                globalCard.querySelector('#global-error-text').innerText = "Incorrect username or password.";
+                globalCard.classList.remove('hidden');
+            }
+        }
+
+        function terminateSessionContext() {
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('faculty-secure-form').reset();
+            document.getElementById('login-view').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
